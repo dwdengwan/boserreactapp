@@ -49,7 +49,6 @@
 
     let chartBox = document.getElementsByClassName('chart_box')[0];
     let myChartsize = document.getElementById('chinesechart');
-    console.log(chartBox,myChartsize);
     chartssize(chartBox,myChartsize)
 
     window.onresize=function(){
@@ -59,73 +58,315 @@
         chartssize(chartBox,myChartsize)
     }
 
-    let echartData = {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                // "children": [
-                                //     {
-                                //         "children": [],
-                                //         "name": "低压车间表计82"
-                                //     }
-                                // ],
-                                "name": "万科股份有限公司北海公司"
-                            }
-                        ],
-                        "name": "分支机构"
+    let echartData = [
+        {
+            name: '万科企业股份有限公司',
+            value: 6,
+            symbol:'rect',
+            symbolSize: [180, 40],
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: false
                     },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
+                    borderWidth:0,
+                },
+            },
+            children: [
+                {
+                    name: '分支机构',
+                    value: 6,
+                    symbol:'rect',
+                    symbolSize: [120, 40],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
                             },
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
-                            },
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
-                            }
-                        ],
-                        "name": "对外投资"
+                        },
+                        borderWidth:0,
                     },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
+                    children: [
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
                             },
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
                             },
-                            {
-                                "children": [],
-                                "name": "扬州万胜置业有限公司"
-                            }
-                        ],
-                        "name": "疑似控股"
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '查看更多',
+                            symbol:'rect',
+                            symbolSize: [120, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                    ]
+                },
+                {
+                    name: '对外投资',
+                    symbol:'rect',
+                    symbolSize: [120, 40],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
                     },
-                ],
-                "name": "万科企业股份有限公司"
-            }
+                    value: 4,
+                    children: [
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '收起',
+                            symbol:'rect',
+                            symbolSize: [120, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                    ]
+                },
+                {
+                    name: '疑似控股',
+                    symbol:'rect',
+                    symbolSize: [120, 40],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
+                    },
+                    value: 2,
+                    children: [
+                        {
+                            name: '万科股份有限公司北海公司1',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司2',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '万科股份有限公司北海公司3',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                        {
+                            name: '查看更多',
+                            symbol:'rect',
+                            symbolSize: [120, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
+                                },
+                                borderWidth:0,
+                            },
+                        },
+                    ]
+                },
+            ]
+        }
+    ]
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('chinesechart'));
     myChart.setOption(option = {
-        tooltip: {
-            // show：'true',//默认：true；是否显示提示框组件，包括提示框浮层和 axisPointer。
-            trigger: 'item',//默认：item；触发类型。item：数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。'axis'：坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。'none':什么都不触发。
-            triggerOn: 'mousemove'
+        // tooltip: {
+        //     // show：'true',//默认：true；是否显示提示框组件，包括提示框浮层和 axisPointer。
+        //     trigger: 'item',//默认：item；触发类型。item：数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。'axis'：坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。'none':什么都不触发。
+        //     triggerOn: 'mousemove'
+        // },
+        tooltip:{
+            trigger:'axis',
+            triggerOn: 'mousemove',
+            axisPointer:{
+                type:'shadow',
+            },
+            //下面是自定义悬浮框的部分，修改悬浮框的样式也是在这里，就是html的样式，自由发挥。
+            formatter:function(params){
+                var res="<p>名称:"+params[0].seriesName+"值:"+params[0].data.value+"时间:"+params[0].data.mDate+"</p>";
+                console.log(res,params);
+                return res;
+            }
         },
         series : [
             {
+                top:0,
+                left:'50%',
+                right:'10%',
+                bottom:0,
                 name:'树图',
                 type:'tree',
-                orient: 'horizontal',  // vertical horizontal
-                rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                // orient: 'horizontal',  // vertical horizontal
+                layout:'orthogonal',
+                orient: 'LR' ,
+                rootLocation: {x: '50%', y: '50%'}, // 根节点位置  {x: 'center',y: 10}
                 nodePadding: 20,
                 symbol: 'circle',
                 symbolSize: 40,
@@ -133,256 +374,22 @@
                 leaves:{
 
                 },
-                // itemStyle: {
-                //     backgroundColor:'#971126',
-                //     normal: {
-                //         label: {
-                //             show: true,
-                //             position: 'inside',
-                //             textStyle: {
-                //                 color: '#cc9999',
-                //                 fontSize: 15,
-                //                 fontWeight:  'bolder'
-                //             }
-                //         },
-                //         lineStyle: {
-                //             color: '#971126',
-                //             width: 2,
-                //             type: 'solid' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                //         }
-                //     },
-                //     emphasis: {
-                //         label: {
-                //             show: true
-                //         }
-                //     }
-                // },
-                data: [
-                    {
-                        name: '万科企业股份有限公司',
-                        value: 6,
-                        symbol:'rect',
-                        symbolSize: [180, 40],
-                        // itemStyle: {
-                        //     normal: {
-                        //         label: {
-                        //             show: false
-                        //         },
-                        //         borderWidth:0,
-                        //     },
-                        // },
-                        itemStyle: {
-                            backgroundColor:'#971126',
-                            normal: {
-                                borderWidth:0,
-                                label: {
-                                    show: true,
-                                    position: 'inside',
-                                    textStyle: {
-                                        color: '#cc9999',
-                                        fontSize: 15,
-                                        fontWeight:  'bolder'
-                                    }
-                                },
-                                lineStyle: {
-                                    color: '#971126',
-                                    width: 2,
-                                    type: 'solid' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                                }
-                            },
-                            emphasis: {
-                                label: {
-                                    show: true
-                                }
-                            }
-                        },
-                        children: [
-                            {
-                                name: '分支机构',
-                                value: 6,
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                            {
-                                name: '对外投资',
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                value: 4,
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                            {
-                                name: '疑似控股',
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                value: 2,
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                        ]
-                    }
-                ],
+                data: echartData,
                 expandAndCollapse: true,
                 animationDuration: 550,
-                animationDurationUpdate: 750
+                animationDurationUpdate: 750,
             },
             {
+                top:0,
+                left:'10%',
+                right:'50%',
+                bottom:0,
                 name:'树图',
                 type:'tree',
-                orient: 'vertical',  // vertical horizontal
-                rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                // orient: 'vertical',  // vertical horizontal
+                layout:'orthogonal',
+                orient: 'RL',
+                rootLocation: {x: '50%', y: '50%'}, // 根节点位置  {x: 'center',y: 10}
                 nodePadding: 20,
                 symbol: 'circle',
                 symbolSize: 40,
@@ -410,270 +417,93 @@
                         }
                     }
                 },
-                data: [
-                    {
-                        name: '万科企业股份有限公司',
-                        value: 6,
-                        symbol:'rect',
-                        symbolSize: [180, 40],
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
-                                },
-                                borderWidth:0,
-                            },
-                        },
-                        children: [
-                            {
-                                name: '分支机构',
-                                value: 6,
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                            {
-                                name: '对外投资',
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                value: 4,
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                            {
-                                name: '疑似控股',
-                                symbol:'rect',
-                                symbolSize: [120, 40],
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                                value: 2,
-                                children: [
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                    {
-                                        name: '万科股份有限公司北海公司',
-                                        symbol:'rect',
-                                        symbolSize: [220, 40],
-                                        value: 4,
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                },
-                                            },
-                                            borderWidth:0,
-                                        },
-                                    },
-                                ]
-                            },
-                        ]
-                    }
-                ],
+                data: echartData,
                 expandAndCollapse: true,
                 animationDuration: 550,
                 animationDurationUpdate: 750
-            }
+            },
         ]
-        // series:[
-        //     {
-        //         type: 'tree',
-        //         data: [echartData],
-        //         // rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
-        //         left: '15%',
-        //         right: '12%',
-        //         top: '2%',
-        //         bottom: '2%',
-        //         symbol: 'circle',
-        //         nodePadding: 20,
-        //         symbolSize:10,
-        //         layout: 'orthogonal',
-        //         orient: 'LR',
-        //         expandAndCollapse: true,//默认：true；子树折叠和展开的交互，默认打开 。
-        //         initialTreeDepth:2,//默认：2，树图初始展开的层级（深度）。根节点是第 0 层，然后是第 1 层、第 2 层，... ，直到叶子节点
-        //         // label: {
-        //         //     normal: {
-        //         //         position: 'inside',//标签的位置。
-        //         //         rotate: 0,//标签旋转。从 -90 度到 90 度。正值是逆时针。
-        //         //         verticalAlign: 'middle',//文字垂直对齐方式，默认自动。
-        //         //         align: 'right',//文字水平对齐方式，默认自动。
-        //         //         fontSize: 16,//文字的字体大小
-        //         //         color:'#971126',
-        //         //     }
-        //         // },
-        //         // leaves: {
-        //         //     label: {
-        //         //         normal: {
-        //         //             position: 'bottom',
-        //         //             rotate: 0,
-        //         //             verticalAlign: 'middle',
-        //         //             align: 'left',
-        //         //             fontSize: 16,//文字的字体大小
-        //         //         }
-        //         //     }
-        //         // },
-        //         itemStyle: {
-        //             normal: {
-        //                 label: {
-        //                     show: true,
-        //                     position: 'inside',
-        //                     textStyle: {
-        //                         color: '#c99',
-        //                         fontSize: 15,
-        //                         fontWeight:  'bolder'
-        //                     }
-        //                 },
-        //                 //连接线的样式
-        //                 lineStyle: {
-        //                     color: '#23b75e',
-        //                     curveness:0,
-        //                     width: 1,
-        //                     type: 'solid' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-        //                 }
-        //             },
-        //             emphasis: {
-        //                 label: {
-        //                     show: true
-        //                 }
-        //             }
-        //         },
-        //         animationDurationUpdate: 750
-        //
-        //     }
-        // ]
     });
+    myChart.on('click', clickFun); //也可以注册其他时间 hover 、mouseout等
+    function clickFun(params) {
+        console.log(params.dataIndex,params)
+        if(params.dataIndex == 16){
+            console.log('dyk kyd');
+            let child = echartData[2].children;
+            child.splice(child.length - 1,1);
+            let addData = [
+                {
+                    name: '万科股份有限公司北海公司4',
+                    symbol:'rect',
+                    symbolSize: [220, 40],
+                    value: 4,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
+                    },
+                },
+                {
+                    name: '万科股份有限公司北海公司5',
+                    symbol:'rect',
+                    symbolSize: [220, 40],
+                    value: 4,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
+                    },
+                },
+                {
+                    name: '万科股份有限公司北海公司6',
+                    symbol:'rect',
+                    symbolSize: [220, 40],
+                    value: 4,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
+                    },
+                },
+                {
+                    name: '收起',
+                    symbol:'rect',
+                    symbolSize: [120, 40],
+                    value: 4,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                        },
+                        borderWidth:0,
+                    },
+                }
+                ];
+            child.concat(addData);
+        }
+    }
+    //计算树下有多少子节点
+    let num = 0;
+    function countChild(arr) {
+        arr.forEach((item,i)=>{
+            if (item.children !== undefined){
+                num += item.children.length;
+                countChild(item.children)
+            }
+        })
+        console.log(num);
+    }
+    countChild(echartData);
 </script>
 </body>
 </html>
