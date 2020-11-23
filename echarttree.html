@@ -512,7 +512,7 @@
         myChart.on('click', clickFun); //也可以注册其他时间 hover 、mouseout等
         function clickFun(params) {
             console.log(params.seriesIndex,params);
-            echartResize()
+            // echartResize()
             let index = params.dataIndex;
             let activeIndex = -1;
             let treeIndex = params.seriesIndex;
@@ -655,6 +655,10 @@
                 // console.log('click 根节点')
                 return    
             }
+            myChart.setOption(option = echartOption,true);
+            echartResize();
+            countChild(echartData1)
+            countChild(echartData2)
         }
         //计算树下有多少子节点
         function countChild(arr) {
@@ -684,6 +688,7 @@
             myChartsize.style.width = window.innerWidth + 'px';
             myChartsize.style.height = newWidth + 'px';
             myChart.resize();
+            console.log('容器调整',myChartsize.style.width,myChartsize.style.height)
         }
         echartResize()
     })()
