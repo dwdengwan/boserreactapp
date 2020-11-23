@@ -37,12 +37,12 @@
 <script type="text/javascript">
     (function(){
         function getStyle(el, name) {
-        if (window.getComputedStyle) {
-            return window.getComputedStyle(el, null);
-        } else {
-            return el.currentStyle;
+            if (window.getComputedStyle) {
+                return window.getComputedStyle(el, null);
+            } else {
+                return el.currentStyle;
+            }
         }
-    }
         //参数container为图表盒子节点.charts为图表节点
         function chartssize (container,charts) {
             function getStyle(el, name) {
@@ -65,7 +65,8 @@
             let myChartsize = document.getElementById('chinesechart');
             chartssize(chartBox,myChartsize)
         }
-        let echartData = [
+        //echart数据
+        let echartData1 = [
             {
                 name: '万科企业股份有限公司',
                 value: 6,
@@ -213,49 +214,7 @@
                                 },
                             },
                             {
-                                name: '万科股份有限公司北海公司',
-                                symbol:'rect',
-                                symbolSize: [220, 40],
-                                value: 4,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                            },
-                            {
-                                name: '万科股份有限公司北海公司',
-                                symbol:'rect',
-                                symbolSize: [220, 40],
-                                value: 4,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                            },
-                            {
-                                name: '万科股份有限公司北海公司',
-                                symbol:'rect',
-                                symbolSize: [220, 40],
-                                value: 4,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: false
-                                        },
-                                    },
-                                    borderWidth:0,
-                                },
-                            },
-                            {
-                                name: '收起',
+                                name: '查看更多',
                                 symbol:'rect',
                                 symbolSize: [120, 40],
                                 value: 4,
@@ -345,6 +304,8 @@
                 ]
             }
         ]
+        let echartData2 = JSON.parse(JSON.stringify(echartData1));
+        //echart节点的样式
         let echartStyle = [
             {
                 color:'rgba(100,200,50,0.2)',
@@ -388,99 +349,84 @@
                 },
             }
         }
-        echartData[0].children.forEach((item,i)=>{
-            item.itemStyle.color = echartStyle[i].color; 
-            item.itemStyle.borderColor = echartStyle[i].borderColor;   
-            item.itemStyle.borderWidth = 0;  
-            // item.itemStyle.normal.lineStyle.color = echartStyle[i].borderColor;
-            item.children.forEach((bitem)=>{
-                bitem.itemStyle.color = echartStyle[i].color; 
-                bitem.itemStyle.borderColor = echartStyle[i].borderColor;   
-                bitem.itemStyle.borderWidth = 0;
+        //子节点的个数
+        let childNum = 0;
+        function changeEchartData(echartData){
+            echartData[0].children.forEach((item,i)=>{
+                item.itemStyle.color = echartStyle[i].color;
+                item.itemStyle.borderColor = echartStyle[i].color;
+                item.itemStyle.borderWidth = 0;
+                // item.itemStyle.normal.lineStyle.color = echartStyle[i].borderColor;
+                item.children.forEach((bitem)=>{
+                    bitem.itemStyle.color = echartStyle[i].color;
+                    bitem.itemStyle.borderColor = echartStyle[i].color;
+                    bitem.itemStyle.borderWidth = 0;
+                })
             })
-        })
+        }
+        changeEchartData(echartData1);
+        changeEchartData(echartData2);
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('chinesechart'));
+        let myChart = echarts.init(document.getElementById('chinesechart'));
+        //echart option设置
         let echartOption = {
             tooltip: {
                 // show：'true',//默认：true；是否显示提示框组件，包括提示框浮层和 axisPointer。
                 trigger: 'item',//默认：item；触发类型。item：数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。'axis'：坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。'none':什么都不触发。
                 triggerOn: 'mousemove',
+                backgroundColor: "rgba(255,255,255,0.8)", //设置背景图片 rgba格式
+                color: "#eee",
+                borderWidth: "0", //边框宽度设置1
+                borderColor: "gray", //设置边框颜色
+                textStyle: {
+                    color: "black" //设置文字颜色
+                },
+                showDelay: 0,//显示延时，添加显示延时可以避免频繁切换
+                hideDelay: 50,//隐藏延时
+                // transitionDuration: 10,//动画变换时长
+                borderRadius: 8,//边框圆角
+                padding: 10,    // [5, 10, 15, 20] 内边距
+                // position: function (p) {
+                //     // 位置回调
+                //     // console.log && console.log(p);
+                //     return [p[0] + 10, p[1] - 10];
+                // },
                 //下面是自定义悬浮框的部分，修改悬浮框的样式也是在这里，就是html的样式，自由发挥。
-                // formatter:function(params){
-                //     var res=
-                //     "<p>名称:"+params[0].seriesName+
-                //         "值:"+params[0].data.value+
-                //         "时间:"+params[0].data.mDate+
-                //     "</p>";
-                //     console.log(res,params);
-                //     return res;
-                // }
+                formatter:function(params){
+                    // console.log(params,params.data.name,params.data.value)
+                    var res=
+                    `
+                       <div style="padding:20px;text-align: left">
+                            <p style="color: #61e9ff;">${params.data.name}</p>
+                            <p style="color: #61e9ff;"><span style="color: #999;">法定代表人: </span>&nbsp;&nbsp;&nbsp;易平安</p>
+                            <p><span style="color: #999;">成立日期: </span>&nbsp;&nbsp;&nbsp;2008-06-13</p>
+                            <p><span style="color: #999;">注册资本: </span>&nbsp;&nbsp;&nbsp;100,000万(元)</p>
+                        </div>
+                    `;
+                    if (params.dataIndex == 1 ||
+                        (params.data.name!== '查看更多'&&
+                            params.data.name!== '收起' &&
+                            params.data.name!== '对外投资'&&
+                            params.data.name!== '分支机构' &&
+                            params.data.name!== '疑似控股' )){
+                        return res;
+                    }
+                }
             },
-
-            // tooltip:{
-            //     show:true,
-            //     trigger:'axis',
-            //     triggerOn: 'mousemove',
-            //     axisPointer:{
-            //         type:'shadow',
-            //     },
-            //     //下面是自定义悬浮框的部分，修改悬浮框的样式也是在这里，就是html的样式，自由发挥。
-            //     formatter:function(params){
-            //         var res=
-            //         "<p>名称:"+params[0].seriesName+
-            //             "值:"+params[0].data.value+
-            //             "时间:"+params[0].data.mDate+
-            //         "</p>";
-            //         console.log(res,params);
-            //         return res;
-            //     }
-            // },
-
-            // tooltip: {
-            //     show: true,
-            //     trigger: 'axis',
-            //     triggerOn: 'mousemove',
-            //     //show: true,   //default true
-            //     showDelay: 0,//显示延时，添加显示延时可以避免频繁切换
-            //     hideDelay: 50,//隐藏延时
-            //     transitionDuration: 0,//动画变换时长
-            //     backgroundColor: 'rgba(0,0,0,0.7)',//背景颜色（此时为默认色）
-            //     borderRadius: 8,//边框圆角
-            //     padding: 10,    // [5, 10, 15, 20] 内边距
-            //     position: function (p) {
-            //         // 位置回调
-            //         // console.log && console.log(p);
-            //         return [p[0] + 10, p[1] - 10];
-            //     },
-            //     formatter: function (params, ticket, callback) {
-            //         console.log(params)
-            //         var res = "班级" + ' : ' + params[0].name + "班<br/>";
-            //         for (var i = 0, l = params.length; i < l; i++) {
-            //             res += '<br/>' + params[i].seriesName + ' : ' + params[i].value + "1111";//鼠标悬浮显示的字符串内容
-            //         }
-            //         setTimeout(function () {
-            //             // 仅为了模拟异步回调
-            //             callback(ticket, res);
-            //         }, 1000)
-            //         return 'loading...';
-            //     }
-            //     //formatter: "Template formatter: <br/>{b}<br/>{a}:{c}<br/>{a1}:{c1}"
-            // },
             series : [
                 {
                     top:0,
                     left:'50%',
                     right:'10%',
                     bottom:0,
-                    name:'树图',
+                    name:'左树图',
                     type:'tree',
                     // orient: 'horizontal',  // vertical horizontal
                     layout:'orthogonal',//radial orthogonal
                     orient: 'LR' ,
                     rootLocation: {x: '50%', y: '50%'}, // 根节点位置  {x: 'center',y: 10}
                     nodePadding: 50,
-                    symbol: 'circle',
+                    symbol: 'arrow',//arrow circle
                     symbolSize: 40,
                     edgeShape: 'polyline',
                     roam:true,
@@ -510,7 +456,7 @@
                             }
                         }
                     } ,
-                    data: echartData,
+                    data: echartData1,
                     expandAndCollapse: true,
                     animationDuration: 550,
                     animationDurationUpdate: 750,
@@ -520,14 +466,14 @@
                     left:'10%',
                     right:'50%',
                     bottom:0,
-                    name:'树图',
+                    name:'右树图',
                     type:'tree',
                     // orient: 'vertical',  // vertical horizontal
                     layout:'orthogonal',//radial orthogonal
                     orient: 'RL',
                     rootLocation: {x: '50%', y: '50%'}, // 根节点位置  {x: 'center',y: 10}
                     nodePadding: 50,
-                    symbol: 'circle',
+                    symbol: 'arrow',//arrow circle
                     symbolSize: 40,
                     roam:true,
                     edgeShape: 'polyline',//curve  polyline
@@ -554,7 +500,7 @@
                             }
                         }
                     } ,
-                    data: echartData,
+                    data: echartData2,
                     expandAndCollapse: true,
                     animationDuration: 550,
                     animationDurationUpdate: 750
@@ -562,118 +508,166 @@
             ]
         };
         myChart.setOption(option = echartOption,true);
+        //echart 节点点击事件
         myChart.on('click', clickFun); //也可以注册其他时间 hover 、mouseout等
         function clickFun(params) {
-            console.log(params.dataIndex,params);
+            console.log(params.seriesIndex,params);
             echartResize()
-            if(params.dataIndex == 19){
-                console.log('dyk kyd');
-                let child = echartData[0].children[2].children;
-                child.splice(child.length - 1,1);
-                let addData = [
-                    {
-                        name: '万科股份有限公司北海公司4',
-                        symbol:'rect',
-                        symbolSize: [220, 40],
-                        value: 4,
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
+            let index = params.dataIndex;
+            let activeIndex = -1;
+            let treeIndex = params.seriesIndex;
+            //改变节点的样式
+            let changeStyle = function (addData,activeIndex) {
+                addData.forEach((item)=>{
+                    item.itemStyle.color = echartStyle[activeIndex].color;
+                    item.itemStyle.borderColor = echartStyle[activeIndex].color;
+                    item.itemStyle.borderWidth = 0;
+                })
+            };
+            echartOption.series.forEach((item)=>{
+                // console.log(item.name);
+            })
+            if((index == 6 || index == 11 || index == 16 || index == 14 || index == 19 || index == 22) && params.data.name == '查看更多'){
+                //查看更多
+                if(index == 6){
+                    activeIndex = 0;
+                }else if(index == 11 || index == 14){
+                    activeIndex = 1;
+                }else if(index == 16 || index == 19 || index == 22){
+                    activeIndex = 2;
+                }
+                let echartDataSelect = function (echartData) {
+                    let child = echartData[0].children[activeIndex].children;
+                    child.splice(child.length - 1,1);
+                    let addData = [
+                        {
+                            name: '万科股份有限公司北海公司4',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
                                 },
+                                borderWidth:0,
                             },
-                            borderWidth:0,
                         },
-                    },
-                    {
-                        name: '万科股份有限公司北海公司5',
-                        symbol:'rect',
-                        symbolSize: [220, 40],
-                        value: 4,
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
+                        {
+                            name: '万科股份有限公司北海公司5',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
                                 },
+                                borderWidth:0,
                             },
-                            borderWidth:0,
                         },
-                    },
-                    {
-                        name: '万科股份有限公司北海公司6',
-                        symbol:'rect',
-                        symbolSize: [220, 40],
-                        value: 4,
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
+                        {
+                            name: '万科股份有限公司北海公司6',
+                            symbol:'rect',
+                            symbolSize: [220, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
                                 },
+                                borderWidth:0,
                             },
-                            borderWidth:0,
                         },
-                    },
-                    {
-                        name: '收起',
-                        symbol:'rect',
-                        symbolSize: [120, 40],
-                        value: 4,
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
+                        {
+                            name: '收起',
+                            symbol:'rect',
+                            symbolSize: [120, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
                                 },
+                                borderWidth:0,
                             },
-                            borderWidth:0,
-                        },
-                    }
-                ];
-                child = child.concat(addData);
-                echartData[0].children[2].children = child;
-                // echartResize();
+                        }
+                    ];
+                    changeStyle(addData,activeIndex);
+                    child = child.concat(addData);
+                    echartData[0].children[activeIndex].children = child;
+                };
+                if (treeIndex) {
+                    echartDataSelect(echartData2)
+                }else{
+                    echartDataSelect(echartData1)
+                }
+                echartResize();
                 myChart.setOption(option = echartOption,true);
-                console.log(echartData,child);
-            }else if(params.dataIndex == 22){
-                console.log('dw wd');
-                let child = echartData[0].children[2].children;
-                child.splice(child.length - 4,4);
-                let addData = [
-                    {
-                        name: '查看更多',
-                        symbol:'rect',
-                        symbolSize: [120, 40],
-                        value: 4,
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: false
+                countChild(echartData1)
+                countChild(echartData2)
+            }else if((index == 9 || index == 14 || index == 17 || index == 19 || index == 22 || index == 25) && params.data.name == '收起'){
+                //收起
+                if(index == 9){
+                    activeIndex = 0;
+                }else if(index == 14 || index == 17){
+                    activeIndex = 1;
+                }else if(index == 19 || index == 22 || index == 25){
+                    activeIndex = 2;
+                }
+                let echartDataSelect = function (echartData) {
+                    let child = echartData[0].children[activeIndex].children;
+                    child.splice(child.length - 4,4);
+                    let addData = [
+                        {
+                            name: '查看更多',
+                            symbol:'rect',
+                            symbolSize: [120, 40],
+                            value: 4,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: false
+                                    },
                                 },
+                                borderWidth:0,
                             },
-                            borderWidth:0,
-                        },
-                    }
-                ];
-                child = child.concat(addData);
-                echartData[0].children[2].children = child;
-                // echartResize();
+                        }
+                    ];
+                    changeStyle(addData,activeIndex)
+                    child = child.concat(addData);
+                    echartData[0].children[activeIndex].children = child;
+                };
+                if (treeIndex) {
+                    echartDataSelect(echartData2)
+                }else{
+                    echartDataSelect(echartData1)
+                }
+                echartResize();
                 myChart.setOption(option = echartOption,true);
-                console.log(echartData,child);
-            }else if(params.dataIndex == 1){
-                console.log('click 根节点')
+                countChild(echartData1)
+                countChild(echartData2)
+            }else if(index == 1){
+                // console.log('click 根节点')
                 return    
             }
         }
         //计算树下有多少子节点
-        let num = 0;
         function countChild(arr) {
             arr.forEach((item,i)=>{
                 if (item.children !== undefined){
-                    num += item.children.length;
+                    childNum += item.children.length;
                     countChild(item.children)
                 }
+                // console.log(childNum)
             })
         }
-        countChild(echartData);
+        countChild(echartData1);
+        countChild(echartData2);
         //节点过多时 调节容器高度
         function echartResize (){
             let allNode=0;
