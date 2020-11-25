@@ -511,7 +511,7 @@
         //echart 节点点击事件
         myChart.on('click', clickFun); //也可以注册其他时间 hover 、mouseout等
         function clickFun(params) {
-            console.log(params.seriesIndex,params);
+            console.log(params.seriesIndex,params.dataIndex);
             // echartResize()
             let index = params.dataIndex;
             let activeIndex = -1;
@@ -653,9 +653,10 @@
                 countChild(echartData2)
             }else if(index == 1){
                 // console.log('click 根节点')
-                return    
+                return
+            }else{
+                console.log('123aaa')
             }
-            myChart.setOption(option = echartOption,true);
             echartResize();
             countChild(echartData1)
             countChild(echartData2)
