@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #svgWrap{
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+        }
+        .tag rect{
+            fill: #fff;
+            stroke: #3377ff;
+        }
+        .goodsActive rect{
+            fill: rgba(130, 122, 146, 0.5)!important;
+        }
+
+    </style>
+    <script src="https://cdn.bootcss.com/d3/3.2.7/d3.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div id="svgWrap"></div>
+</div>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        let rootName;//根节点名称
+        getData();
+    }
+
+
+    let getData = function () {
+	 //参数
+        /*
+        * name 名字
+        * amount 股东投资金额
+        * ratio 股东投资比例
+        * hasHumanholding
+        * hasChildren
+        * isExpand
+        * */
+        let rootData = {
+            "downward": {
+                "direction": "downward",
+                "name": "万科控股",
+                "children": [
+                    {
+                        "name": "分支机构",
+                        "amount": "100",
+                        "hasHumanholding": true,
+                        "hasChildren": true,
+                        "isExpand": false,
+                        "children": [
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "对外投资",
+                        "amount": "100",
+                        "hasHumanholding": true,
+                        "hasChildren": true,
+                        "isExpand": false,
+                        "children": [
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "疑似控股",
+                        "amount": "100",
+                        "hasHumanholding": true,
+                        "hasChildren": true,
+                        "isExpand": false,
+                        "children": [
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "万科公司",
+                                "hasHumanholding": false,
+                                "hasChildren": true,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            "upward": {
+                "direction": "upward",
+                // "name": "origin",
+                "name": "万科股份有限公司",
+                "posotion": 'middle',
+                "children": [
+                    {
+                        "name": "投资方",
+                        "hasHumanholding": false,
+                        "amount": "100",
+                        "posotion": 'down',
+                        "children": [
+                            {
+                                "name": "投资方名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "posotion": 'down',
+                                "children": []
+                            },
+                            {
+                                "name": "投资方名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "isExpand": false,
+                                "posotion": 'down',
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "投资方名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "posotion": 'down',
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "法定代表人",
+                        "hasHumanholding": false,
+                        "amount": "100",
+                        "posotion": 'down',
+                        "children": [
+                            {
+                                "name": "法定代表人名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "posotion": 'down',
+                                "children": []
+                            },
+                            {
+                                "name": "法定代表人名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "isExpand": false,
+                                "posotion": 'down',
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "法定代表人名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "posotion": 'down',
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "高管",
+                        "hasHumanholding": false,
+                        "amount": "100",
+                        "posotion": 'down',
+                        "children": [
+                            {
+                                "name": "高管名字",                            
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "posotion": 'down',
+                                "children": []
+                            },
+                            {
+                                "name": "高管名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "isExpand": false,
+                                "posotion": 'down',
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "高管名字",
+                                "deparment":"总监",
+                                "hasHumanholding": false,
+                                "amount": "100",
+                                "posotion": 'down',
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                ]
+            }
+        }
+
+        rootName = '万科企业股份有限公司';
+        drawing(rootData);
+    };
+    let drawing = function (rootData) {
+        let _this = this;
+        // var rootName = ''; //根节点的名字
+        let rootRectWidth = 0; //根节点rect的宽度
+        let downwardLength = 0,
+        upwardLength = 0;
+        let forUpward = true;
+
+        class treeChart {
+            constructor(d3Object) {
+                this.d3 = d3Object;
+                this.directions = ['upward', 'downward'];
+            }
+
+            drawChart() {
+                rootRectWidth = _this.rootName.length * 15;
+                this.treeData = rootData; //上或下游数据
+                this.graphTree(this.getTreeConfig());
+            }
+
+            getTreeConfig() {
+                let treeConfig = {margin: {top: 10, right: 5, bottom: 0, left: 30}}
+                treeConfig.chartWidth = this.d3.select('#svgWrap')[0][0].clientWidth;
+                treeConfig.chartHeight = this.d3.select('#svgWrap')[0][0].clientHeight;
+                treeConfig.centralHeight = treeConfig.chartHeight / 2;
+                treeConfig.centralWidth = treeConfig.chartWidth / 2;
+                treeConfig.linkLength = 230;//连线长度
+                treeConfig.duration = 500; //动画时间
+                treeConfig.lineHeight = 60;
+
+                treeConfig.boxWidth = 120;
+                treeConfig.boxHeight = 40;
+                return treeConfig;
+            }
+
+            graphTree(config) {
+                let hasChildNodeArr = [];
+                let id = 0;
+                let zoom = d3.behavior.zoom().scaleExtent([0.5, 2]).on('zoom', redraw);
+                let svg = d3.select('#svgWrap')
+                    .append('svg')
+                    .attr('width', config.chartWidth)
+                    .attr('height', config.chartHeight)
+                    .attr('xmlns', 'http://www.w3.org/2000/svg')
+                    .call(zoom)
+                    .on('dblclick.zoom', null);
+                let treeG = svg.append('g')
+                //.attr('transform', `translate(-${config.boxWidth/2},-${config.boxHeight/2})`)
+
+                //箭头(下半部分)
+                let marker = svg.append("marker")
+                    .attr("id", "marker")
+                    .attr("markerUnits", "strokeWidth") //设置为strokeWidth箭头会随着线的粗细发生变化
+                    .attr("markerUnits", "userSpaceOnUse")
+                    .attr("viewBox", "0 -5 10 10") //坐标系的区域
+                    .attr("refX", 0) //箭头坐标
+                    .attr("refY", 0)
+                    .attr("markerWidth", 10) //标识的大小
+                    .attr("markerHeight", 10)
+                    .attr("orient", "0") //绘制方向，可设定为：auto（自动确认方向）和 角度值
+                    .attr("stroke-width", 2) //箭头宽度
+                    .append("path")
+                    .attr("d", "M0,-5L10,0L0,5") //箭头的路径
+                    .attr('fill', '#b4b4b4'); //箭头颜色
+
+                this.directions.forEach(direction => {
+                    let data = this.treeData[direction];
+                    data.x0 = config.centralWidth;
+                    data.y0 = config.centralHeight;
+                    data.children.forEach(collapse);
+                    update(data, data, treeG);
+                })
+
+                function update(source, originalData, g) {
+                    let direction = originalData['direction'];
+                    let forUpward = direction == 'upward';
+                    let node_class = direction + 'Node';
+                    let link_class = direction + 'Link';
+                    let downwardSign = (forUpward) ? -1 : 1;
+                    let tree = d3.layout.tree().nodeSize([config.lineHeight, 0]);
+                    let nodes = tree.nodes(originalData);
+                    let links = tree.links(nodes);
+                    nodes.forEach(d => {
+                        d.y = d.x + config.centralHeight;
+                        d.x = downwardSign * (d.depth * config.linkLength) + config.centralWidth;
+                    });
+
+                    // Update the node.
+                    let node = g.selectAll('g.' + node_class).data(nodes, d => d.id || (d.id = ++id))
+                    let nodeEnter = node.enter().insert('g','g')
+                        .attr('class', node_class)
+                        .attr('transform', d => `translate(${source.x0},${source.y0})`)//设置初始动画位置
+                    //节点 
+                    let tagAnode = nodeEnter.append("a")
+                        .attr("class","tag")
+                        .attr("xlink:title", d => {
+                            return `<div style="color:red;">上市公司150家</div>`
+                        })
+                        .style("cursor", function (d) {
+                            return "pointer"
+                            // return "not-allowed"
+                        })
+                        .on('click', selectTag)
+
+                    tagAnode.append("svg:rect")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", config.boxWidth)
+                        .attr("height", config.boxHeight)
+                        .attr("rx", 6)
+
+                    tagAnode.append("text")
+                        .attr("x", config.boxWidth/2)
+                        .attr('dy', 24)
+                        .attr("text-anchor", 'middle')
+                        .text(function (d) {
+                            return (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                        })
+                        .style({
+                            'fill': '#333',
+                            'font-size': 14,
+                        })
+
+                    tagAnode.append("text")
+                        .attr("x", config.boxWidth/2)
+                        .attr("dy", 34)
+                        .style({
+                            'fill': "pink",
+                            'font-size': 12,
+                        })
+                        .attr("text-anchor", 'middle')
+
+                        tagAnode.append("text")
+                            .attr("x", function(d) {
+                                return(d.name == 'origin') ? '.35em' : forUpward ? '140' : '-20';
+                            })
+                            .attr("dy", function(d) {
+                                return(d.name == 'origin') ? '.35em' : forUpward ? '15' : '15';
+                            })
+                            // .attr("text-anchor", "start")
+                            .attr("text-anchor",function(d){
+                                return(d.name == 'origin') ? '.35em' : forUpward ? 'start' : 'end';
+                            })
+                            .attr("class", "linkname")
+                            .style("fill", "green")
+                            .style('font-size', 10)
+                            .text(function(d) {
+                            return(d.name == 'origin') ? "" : d.ratio;
+                        });
+
+                    let nodeUpdate = node.transition()
+                        .duration(config.duration)
+                        .attr('transform', d => `translate(${d.x},${d.y})`)
+                    nodeEnter.append('circle').attr('r', 1e-6);
+                    nodeUpdate.select('circle')
+                        .attr('r', d => hasChildNodeArr.indexOf(d) == -1 ? 0 : 8)
+                        .attr('cx', d => d.posotion == 'down' ? -9 : config.boxWidth+9)
+                        .attr('cy', config.boxHeight/2)
+                        .style('fill', "transparent")
+                        .style('stroke', d => hasChildNodeArr.indexOf(d) != -1 ? "#999" : "")
+                        .style('cursor', "pointer")
+                    //代表是否展开的+-号
+                    nodeEnter.append("svg:text")
+                        .attr("x", function (d) {
+                            return d.posotion == 'down' ? -9 : config.boxWidth + 9
+                        })
+                        .attr("dy", 25)
+                        .attr("text-anchor", "middle")
+                        .style("fill", "#3377ff")
+                        .text(function (d) {
+                            return hasChildNodeArr.indexOf(d) != -1 ? d.spread? "-":"+" : "";
+                        })
+                        .on('click', click)
+
+                    let nodeExit = node.exit().transition()
+                        .duration(config.duration)
+                        .attr('transform', d => `translate(${source.x},${source.y})`)
+                        .remove();
+
+                    let link = g.selectAll('path.' + link_class)
+                        .data(links, d => d.target.id)
+
+                    function drawPath(d) {
+                        let x1 = forUpward ? d.source.x : d.source.x + config.boxWidth,
+                            y1 = d.source.y + config.boxHeight/2,
+                            x3 = forUpward ? d.target.x + config.boxWidth : d.target.x - 10,
+                            y3 = d.target.y + 20
+                        return `M${x1},${y1} L${(x1 + x3) / 2},${y1} L${(x1 + x3) / 2},${y3} L${x3},${y3}`
+                    }
+
+                    //线的样式 
+                    link.enter().insert('path', 'g')
+                        .attr('class', link_class)
+                        .attr('stroke', '#eee')
+                        .attr('fill', "none")
+                        .attr('stroke-width', '1px')
+                        .attr('d', function (d) {
+                            let o = {x: source.x0, y: source.y0}
+                            return drawPath({source: o, target: o})
+                        })
+                        .attr("marker-end", "url(#marker)")
+
+                    link.transition()
+                        .duration(config.duration)
+                        .attr('d', drawPath);
+                    link.exit().transition()
+                        .duration(config.duration)
+                        .attr('d', function (d) {
+                            let o = {x: source.x, y: source.y}
+                            return drawPath({source: o, target: o})
+                        })
+                        .remove();
+                    nodes.forEach(function (d) {
+                        d.x0 = d.x;
+                        d.y0 = d.y;
+                    });
+
+                    function click(d) {
+                        console.log('dduukk')
+                        if (d.children) {
+                            d._children = d.children;
+                            d.children = null;
+                            d.spread = false;
+                            d3.select(this).text('+')
+                        } else {
+                            d.children = d._children;
+                            d._children = null;
+                            d.spread = true;
+                            d3.select(this).text('-')
+                        }
+                        update(d, originalData, g);
+                    }
+                    function selectTag(d){
+                        d3.select(".goodsActive").classed('goodsActive',false)
+                        d3.select(this).classed('goodsActive',true)
+                        console.log(d);
+                    }
+                    
+                }
+
+                function collapse(d) {
+                    if (d.children && d.children.length != 0) {
+                        // d._children = d.children;
+                        // d._children.forEach(collapse);
+                        // d.children = null;
+                        d.spread = true;
+                        hasChildNodeArr.push(d);   //将有子集的 d 记录到hasChildNodeArr 控制加号显示
+                        d.children.forEach(collapse)  //递归将所有子集的 记录到hasChildNodeArr
+                    }
+                }
+
+                function redraw() {
+                    treeG.attr('transform', 'translate(' + d3.event.translate + ')' +
+                        ' scale(' + d3.event.scale + ')');
+                }
+            }
+        }
+
+        let d3GenerationChart = new treeChart(d3);
+        d3GenerationChart.drawChart();
+
+    };
+</script>
+</html>

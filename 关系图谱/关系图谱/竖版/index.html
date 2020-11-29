@@ -2,270 +2,250 @@
 
 <html>
 <head>
-<meta charset="utf-8">
-<title>企业谱图</title>
-
-<script src="js/d3.min.js"></script>
-<script src="js/jquery.min.js"></script>
-<style>
-  html,body{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-  }
-  .container,.menu,#product_tree{
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-  }
-</style>
-
+	<meta charset="utf-8">
+	<title>d3+jQuery股权穿透图</title>
+	<script src="https://cdn.bootcss.com/d3/3.2.7/d3.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
-
-<div class="container" id="treecontainer">
-	<div class="menu">
-		<div id="product_tree"></div>
-	</div>
-</div>
-
-
+   <div class="container" id="treecontainer">
+       <div class="menu">
+       <div id="product_tree"></div>
+   </div>
+</body>
 <script type="text/javascript">
-  var container;
-  var zoom;
-  var rootData;
-  var depthInfo;
-  var rootName;//根节点名称
+        var container;
+        var zoom;
+        var rootData;
+        var depthInfo;
+		var rootName;//根节点名称
 
-  jQuery(document).ready(function () {
-    /* resizeScreen();*/
-    //selectChange();
-    var child=document.getElementById("product_tree");
-        child.innerHTML = '';
-        getData();
-    });
+        jQuery(document).ready(function () {
+           /* resizeScreen();*/
+          
+          //selectChange();
+		   var child=document.getElementById("product_tree");
+            child.innerHTML = '';
+			getData();
+        });
 
-  var getData =function() {
-      // 测试内容
+var getData =function() {
+    // 测试内容
     rootData = {
-      "downward": {
-          "direction": "downward",
-          "name": "origin",
-          "children": [
-              {
-                  "name": "上海冰鉴企业征信服务有限公司",
-                  "amount": "100",
-                  "ratio": "55%",
-                  "hasHumanholding":true,
-                  "hasChildren":true,
-                  "isExpand": false,
-                  "children": [
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "10110",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "10000",
-                          "ratio": "55%",
-                          "children": []
-                      }
-                  ]
-              },
-              {
-                  "name": "上海冰鉴企业征信服务有限公司11",
-                  "amount": "100",
-                  "ratio": "55%",
-                  "hasHumanholding":true,
-                  "hasChildren":true,
-                  "isExpand": false,
-                  "children": [
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      }
-                  ]
-              },
-              {
-                  "name": "北京冰鉴企业征信服务有限公司",
-                  "amount": "100",
-                  "ratio": "55%",
-                  "hasHumanholding":true,
-                  "hasChildren":true,
-                  "isExpand": false,
-                  "children": [
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司名字",
-                          "hasHumanholding":false,
-                          "hasChildren":true,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      }
-                  ]
-              },
-              {
-                  "name": "成都量化金服大数据技术服务有限公司",
-                  "hasHumanholding":false,
-                  "hasChildren":true,
-                  "amount": "100",
-                  "ratio": "55%",
-                  "children": []
-              },
-              {
-                  "name": "南京冰鉴信息科技有限公司",
-                  "hasHumanholding":false,
-                  "hasChildren":true,
-                  "isExpand": false,
-                  "amount": "100",
-                  "ratio": "55%",
-                  "children": [
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      }
-                  ]
-              }
-          ]
-      },
-      "upward": {
-          "direction": "upward",
-          "name": "origin",
-          "children": [
-              {
-                  "name": "上海唯猎创业投资中心(有限合伙)",
-                  "hasHumanholding":false,
-                  "amount": "100",
-                  "ratio": "55%",
-                  "children": [
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      },
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "isExpand": false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": [
-                              {
-                                  "name": "公司或股东名字",
-                                  "hasHumanholding":false,
-                                  "amount": "100",
-                                  "ratio": "55%",
-                                  "children": []
-                              },
-                              {
-                                  "name": "公司或股东名字",
-                                  "hasHumanholding":false,
-                                  "amount": "100",
-                                  "ratio": "55%",
-                                  "children": []
-                              }
-                          ]
-                      },
-                      {
-                          "name": "公司或股东名字",
-                          "hasHumanholding":false,
-                          "amount": "100",
-                          "ratio": "55%",
-                          "children": []
-                      }
-                  ]
-              }
-          ]
-      }
+    "downward": {
+        "direction": "downward",
+        "name": "origin",
+        "children": [
+            {
+                "name": "上海冰鉴企业征信服务有限公司",
+                "amount": "50",
+                "ratio": "55%",
+                "hasHumanholding":true,
+                "hasChildren":true,
+                "isExpand": false,
+                "children": [
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "上海冰鉴企业征信服务有限公司11",
+                "amount": "100",
+                "ratio": "55%",
+                "hasHumanholding":true,
+                "hasChildren":true,
+                "isExpand": false,
+                "children": [
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "北京冰鉴企业征信服务有限公司",
+                "amount": "100",
+                "ratio": "55%",
+                "hasHumanholding":true,
+                "hasChildren":true,
+                "isExpand": false,
+                "children": [
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司名字",
+                        "hasHumanholding":false,
+                        "hasChildren":true,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "成都量化金服大数据技术服务有限公司",
+                "hasHumanholding":false,
+                "hasChildren":true,
+                "amount": "100",
+                "ratio": "55%",
+                "children": []
+            },
+            {
+                "name": "南京冰鉴信息科技有限公司",
+                "hasHumanholding":false,
+                "hasChildren":true,
+                "isExpand": false,
+                "amount": "100",
+                "ratio": "55%",
+                "children": [
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "upward": {
+        "direction": "upward",
+        "name": "origin",
+        "children": [
+            {
+                "name": "投资方",
+                "hasHumanholding":false,
+                "amount": "100",
+                "ratio": "55%",
+                "children": [
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    },
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "isExpand": false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": [
+                            {
+                                "name": "公司或股东名字",
+                                "hasHumanholding":false,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            },
+                            {
+                                "name": "公司或股东名字",
+                                "hasHumanholding":false,
+                                "amount": "100",
+                                "ratio": "55%",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "公司或股东名字",
+                        "hasHumanholding":false,
+                        "amount": "100",
+                        "ratio": "55%",
+                        "children": []
+                    }
+                ]
+            }
+        ]
     }
-    rootName = '万科企业股份有限公司';
-    drawing();
+}
+      rootName = '我是根节点';
+      drawing();
   };
-
 	var	drawing = function() {
-    var _this = this;
-    // var rootName = ''; //根节点的名字
-    var rootRectWidth = 0; //根节点rect的宽度
-    var downwardLength = 0,
-      upwardLength = 0;
-    var forUpward = true
-
-    var treeChart = function(d3Object) {
-      this.d3 = d3Object;
-      this.directions = ['upward', 'downward'];
-    };
+      var _this = this;
+            // var rootName = ''; //根节点的名字
+      var rootRectWidth = 0; //根节点rect的宽度
+      var downwardLength = 0,
+        upwardLength = 0;
+      var forUpward = true
+ 
+      var treeChart = function(d3Object) {
+        this.d3 = d3Object;
+        this.directions = ['upward', 'downward'];
+      };
  
  
       treeChart.prototype.drawChart = function() {
         // First get tree data for both directions.
         this.treeData = {};
         var self = this;
-		    self.directions.forEach(function(direction) {
-          self.treeData[direction] = _this.rootData[direction];
-        });
-        // rootName = '上海冰鉴信息科技有限公司';
-        rootRectWidth = _this.rootName.length * 15;
-        //获得upward第一级节点的个数
-        upwardLength = _this.rootData.upward.children.length;
-        //获得downward第一级节点的个数
-        downwardLength = _this.rootData.downward.children.length;
-        self.graphTree(self.getTreeConfig());
+		self.directions.forEach(function(direction) {
+            self.treeData[direction] = _this.rootData[direction];
+          });
+          // rootName = '上海冰鉴信息科技有限公司';
+          rootRectWidth = _this.rootName.length * 15;
+          //获得upward第一级节点的个数
+          upwardLength = _this.rootData.upward.children.length;
+          //获得downward第一级节点的个数
+          downwardLength = _this.rootData.downward.children.length;
+          self.graphTree(self.getTreeConfig());
       };
  
       treeChart.prototype.getTreeConfig = function() {
@@ -277,11 +257,9 @@
             'left': 30
           }
         }
-
-        var divW = $('#product_tree').width();
-        var divH = $('#product_tree').height();
-        treeConfig.chartWidth = (divW - treeConfig.margin.right - treeConfig.margin.left);
-        treeConfig.chartHeight = (divH - treeConfig.margin.top - treeConfig.margin.bottom);
+ 
+        treeConfig.chartWidth = (1100 - treeConfig.margin.right - treeConfig.margin.left);
+        treeConfig.chartHeight = (600 - treeConfig.margin.top - treeConfig.margin.bottom);
         treeConfig.centralHeight = treeConfig.chartHeight / 2;
         treeConfig.centralWidth = treeConfig.chartWidth / 2;
         treeConfig.linkLength = 120;
@@ -296,10 +274,10 @@
         var duration = config.duration;
         var hasChildNodeArr = [];
         var id = 0;
-        // var diagonal = d3.svg.diagonal()
-        //.projection(function(d) {
-        //    return [d.x, d.y];
-        //});
+//        var diagonal = d3.svg.diagonal()
+//          .projection(function(d) {
+//            return [d.x, d.y];
+//          });
           
         var diagonal = d3.svg.diagonal()
           .source(function(d) {
@@ -317,17 +295,17 @@
           .projection(function(d) {
             return [d.x, d.y];
           }); 
-          // d3.select("#zoomIn")
-          //     .on("click", function(d) {
-          //         zoom.scaleBy(svg, 0.9); // 执行该方法后 会触发zoom事件
-          //         let tran = d3.zoomTransform(svg.node());
-          //         // svg.attr("transform", `translate(${tran.x},${tran.y}),scale(${tran.k})`); // 您可以手动地更新
-          //         console.log(tran);
-          //     });
+        // d3.select("#zoomIn")
+                //     .on("click", function(d) {
+                //         zoom.scaleBy(svg, 0.9); // 执行该方法后 会触发zoom事件
+                //         let tran = d3.zoomTransform(svg.node());
+                //         // svg.attr("transform", `translate(${tran.x},${tran.y}),scale(${tran.k})`); // 您可以手动地更新
+                //         console.log(tran);
+                //     });
         var zoom = d3.behavior.zoom()
           .scaleExtent([0.5, 2])
           .on('zoom', redraw);
-          var svg = d3.select('#product_tree')
+        var svg = d3.select('#product_tree')
           .append('svg')
           .attr('width', config.chartWidth + config.margin.right + config.margin.left)
           .attr('height', config.chartHeight + config.margin.top + config.margin.bottom)
@@ -410,7 +388,7 @@
             .data(nodes, function(d) {
               return d.id || (d.id = ++id);
             });
-            var nodeEnter = node.enter().append('g')
+                    var nodeEnter = node.enter().append('g')
             .attr('class', node_class)
             .attr('transform', function(d) {
               return 'translate(' + source.x0 + ',' + source.y0 + ')';
@@ -434,10 +412,10 @@
             .attr("height", 40)
             .attr("rx", 10)
             .style("stroke", function(d) {
-              return(d.name == 'origin') ? "#1078AF" : "#CCC";
+              return(d.name == 'origin') ? "#4D7AD8" : "#CCC";
             })
             .style("fill", function(d) {
-              return(d.name == 'origin') ? "#0080E3" : "#FFF";   //节点背景色
+              return(d.name == 'origin') ? "#4D7AD8" : "#FFF";   //节点背景色
             });
  
           nodeEnter.append('circle')
@@ -453,7 +431,7 @@
             .attr("text-anchor", function(d) {
               return(d.name == 'origin') ? 'middle' : "start";
             })
-            .attr('fill', '#000')
+            .attr('fill', '#4D7AD8')
             .text(function(d) {
               if(d.name == 'origin') {
                 // return ((forUpward) ? '根节点TOP' : '根节点Bottom');
@@ -506,12 +484,11 @@
             })
             .attr("text-anchor", "start")
             .attr("class", "linkname")
-            .style("fill", "#E066FF")
+            .style("fill", "#ccc")
             .style('font-size', 10)
             .text(function(d) {
               var str = (d.name == 'origin') ? '' : "认缴金额:"+ d.amount +"万人民币";
-              // return(str.length > 13) ? str.substr(0, 13) + ".." : str;
-              return str;
+              return(str.length > 13) ? str.substr(0, 13) + ".." : str;
             });
           nodeEnter.append("text")
             .attr("x", "10")
@@ -531,8 +508,7 @@
             .duration(duration)
             .attr('transform', function(d) {
               return 'translate(' + d.x + ',' + d.y + ')';
-            });  
-
+            });
           nodeUpdate.select('circle')
             .attr('r', function(d) {
               return(d.name == 'origin') ? 0 : (hasChildNodeArr.indexOf(d) == -1) ? 0 : 6;
@@ -723,6 +699,7 @@
  
     };
 		  
+		  
   var downloadfun = function() { //下载
          
         // 注释该方法为svg 直接下载
@@ -777,6 +754,4 @@
   } 
 
 </script>
-
-</body>
 </html>
