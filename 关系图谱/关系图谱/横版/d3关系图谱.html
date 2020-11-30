@@ -391,13 +391,30 @@
                     let tagAnode = nodeEnter.append("a")
                         .attr("class","tag")
                         .attr("xlink:title", d => {
-                            return `<div style="color:#ffc681;">上市公司150家</div>`
+                            console.log(d)
+                            if(d.posotion !== "down"){
+                                let child1 = d.children;
+                                if(child1.length){
+                                    let child2 = child1[0].children;
+                                    if (child2.length){
+                                        //根级
+                                        return `<div style="color:#ffc681;">${d.name}</div>`
+                                    } else{
+                                        //第二级
+                                        return
+                                    }
+                                }else {
+                                    //第三级
+                                    return `<div style="color:#ffc681;">${d.name}</div>`
+                                }
+                            }
                         })
                         .style("cursor", function (d) {
                             return "pointer"
                             // return "not-allowed"
                         })
-                        .on('click', selectTag)
+                        // selectTag click
+                        .on('click',selectTag)
 
                     tagAnode.append("svg:rect")
                         .attr("x", 0)
@@ -574,7 +591,6 @@
                     });
 
                     function click(d) {
-                        console.log('dduukk')
                         if (d.children) {
                             d._children = d.children;
                             d.children = null;
@@ -589,8 +605,8 @@
                         update(d, originalData, g);
                     }
                     function selectTag(d){
-                        d3.select(".goodsActive").classed('goodsActive',false)
-                        d3.select(this).classed('goodsActive',true)
+                        // d3.select(".goodsActive").classed('goodsActive',false)
+                        // d3.select(this).classed('goodsActive',true)
                         console.log(d);
                     }
                     
