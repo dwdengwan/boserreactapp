@@ -14,10 +14,38 @@
         }
         .tag rect{
             fill: #fff;
-            stroke: #3377ff;
+            /*stroke: #3377ff;*/
         }
         .goodsActive rect{
             fill: rgba(130, 122, 146, 0.5)!important;
+        }
+
+        #tooltip {
+            position: absolute;
+            width: 150px;
+            height: auto;
+            padding: 5px;
+            background-color: white;
+            border: 1px solid #ccc;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            font-style: 12px;
+            -webkit-box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            -moz-box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        #tooltip.hidden {
+            display: none;
+        }
+
+        #tooltip p {
+            margin: 0;
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 20px;
         }
 
     </style>
@@ -26,12 +54,16 @@
 
 <body>
 <div class="container">
+    <div id="tooltip" class="hidden">
+        <p><strong>提示:11111111111111111</strong></p>
+        <p><span id="tooltip_value"></span></p>
+    </div>
+
     <div id="svgWrap"></div>
 </div>
 </body>
 <script type="text/javascript">
     window.onload = function () {
-        let rootName;//根节点名称
         getData();
     }
 
@@ -49,7 +81,7 @@
         let rootData = {
             "downward": {
                 "direction": "downward",
-                "name": "万科控股",
+                "name": "万科企业股份有限公司",
                 "children": [
                     {
                         "name": "分支机构",
@@ -60,6 +92,8 @@
                         "children": [
                             {
                                 "name": "万科公司",
+                                "riskLevel":"1",
+                                "riskLevelName":"高风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -67,7 +101,9 @@
                                 "children": []
                             },
                             {
-                                "name": "万科公司",
+                                "name": "湖南万科公司长沙分公司宁乡子公司2",
+                                "riskLevel":"2",
+                                "riskLevelName":"中风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -84,7 +120,9 @@
                         "isExpand": false,
                         "children": [
                             {
-                                "name": "万科公司",
+                                "name": "湖南万科公司长沙分公司宁乡子公司3",
+                                "riskLevel":"3",
+                                "riskLevelName":"低风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -92,7 +130,9 @@
                                 "children": []
                             },
                             {
-                                "name": "万科公司",
+                                "name": "湖南万科公司长沙分公司宁乡子公司4",
+                                "riskLevel":"1",
+                                "riskLevelName":"高风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -109,7 +149,9 @@
                         "isExpand": false,
                         "children": [
                             {
-                                "name": "万科公司",
+                                "name": "湖南万科公司长沙分公司宁乡子公司5",
+                                "riskLevel":"2",
+                                "riskLevelName":"中风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -117,7 +159,9 @@
                                 "children": []
                             },
                             {
-                                "name": "万科公司",
+                                "name": "湖南万科公司长沙分公司宁乡子公司6",
+                                "riskLevel":"3",
+                                "riskLevelName":"低风险",
                                 "hasHumanholding": false,
                                 "hasChildren": true,
                                 "amount": "100",
@@ -131,7 +175,7 @@
             "upward": {
                 "direction": "upward",
                 // "name": "origin",
-                "name": "万科股份有限公司",
+                "name": "万科企业股份有限公司",
                 "posotion": 'middle',
                 "children": [
                     {
@@ -245,13 +289,10 @@
                 ]
             }
         }
-
-        rootName = '万科企业股份有限公司';
         drawing(rootData);
     };
     let drawing = function (rootData) {
         let _this = this;
-        // var rootName = ''; //根节点的名字
         let rootRectWidth = 0; //根节点rect的宽度
         let downwardLength = 0,
         upwardLength = 0;
@@ -264,7 +305,6 @@
             }
 
             drawChart() {
-                rootRectWidth = _this.rootName.length * 15;
                 this.treeData = rootData; //上或下游数据
                 this.graphTree(this.getTreeConfig());
             }
@@ -298,22 +338,6 @@
                 let treeG = svg.append('g')
                 //.attr('transform', `translate(-${config.boxWidth/2},-${config.boxHeight/2})`)
 
-                //箭头(下半部分)
-                let marker = svg.append("marker")
-                    .attr("id", "marker")
-                    .attr("markerUnits", "strokeWidth") //设置为strokeWidth箭头会随着线的粗细发生变化
-                    .attr("markerUnits", "userSpaceOnUse")
-                    .attr("viewBox", "0 -5 10 10") //坐标系的区域
-                    .attr("refX", 0) //箭头坐标
-                    .attr("refY", 0)
-                    .attr("markerWidth", 10) //标识的大小
-                    .attr("markerHeight", 10)
-                    .attr("orient", "0") //绘制方向，可设定为：auto（自动确认方向）和 角度值
-                    .attr("stroke-width", 2) //箭头宽度
-                    .append("path")
-                    .attr("d", "M0,-5L10,0L0,5") //箭头的路径
-                    .attr('fill', '#b4b4b4'); //箭头颜色
-
                 this.directions.forEach(direction => {
                     let data = this.treeData[direction];
                     data.x0 = config.centralWidth;
@@ -331,6 +355,28 @@
                     let tree = d3.layout.tree().nodeSize([config.lineHeight, 0]);
                     let nodes = tree.nodes(originalData);
                     let links = tree.links(nodes);
+
+                    //箭头(下半部分)
+                    let marker = svg.append("marker")
+                        .attr("id", "marker")
+                        .attr("markerUnits", "strokeWidth") //设置为strokeWidth箭头会随着线的粗细发生变化
+                        .attr("markerUnits", "userSpaceOnUse")
+                        .attr("viewBox", "0 -5 10 10") //坐标系的区域
+                        // .attr("refX", -45) //箭头坐标
+                        .attr("refX", ()=>{
+                                console.log(forUpward)
+                                return forUpward ? 0:-45
+                            }
+                        ) //箭头坐标
+                        .attr("refY", 0)
+                        .attr("markerWidth", 10) //标识的大小
+                        .attr("markerHeight", 10)
+                        .attr("orient", "0") //绘制方向，可设定为：auto（自动确认方向）和 角度值
+                        .attr("stroke-width", 2) //箭头宽度
+                        .append("path")
+                        .attr("d", "M0,-5L10,0L0,5") //箭头的路径
+                        .attr('fill', '#b4b4b4'); //箭头颜色
+
                     nodes.forEach(d => {
                         d.y = d.x + config.centralHeight;
                         d.x = downwardSign * (d.depth * config.linkLength) + config.centralWidth;
@@ -345,7 +391,7 @@
                     let tagAnode = nodeEnter.append("a")
                         .attr("class","tag")
                         .attr("xlink:title", d => {
-                            return `<div style="color:red;">上市公司150家</div>`
+                            return `<div style="color:#ffc681;">上市公司150家</div>`
                         })
                         .style("cursor", function (d) {
                             return "pointer"
@@ -359,16 +405,77 @@
                         .attr("width", config.boxWidth)
                         .attr("height", config.boxHeight)
                         .attr("rx", 6)
+                        .attr("width", function(d) {
+                            let rootRectWidth = 0;
+                            let name = '';
+                            if(d.riskLevelName !== undefined){
+                                name = (d.name.length > 100) ? d.name.substr(0, 100)+"(" + d.riskLevelName + ")" : d.name+"(" + d.riskLevelName + ")";
+                            }else{
+                                name = (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                            }
+                            rootRectWidth = name.length * 15 > 120 ? name.length* 15 : 120;
+                            return rootRectWidth
+                        })
+                        .style({
+                            // 'fill': 'rgba(200,100,50,0.5)'
+                            "fill":function (d) {
+                                // console.log(d)
+                                let child1 = d.children;
+                                if(child1.length){
+                                    let child2 = child1[0].children;
+                                    if (child2.length){
+                                        //根级
+                                        return '#65c3ff'
+                                    } else{
+                                        //第二级
+                                        return '#b4d2f4'
+                                    }
+                                }else {
+                                    //第三级
+                                    return 'rgba(200,100,50,0.5)'
+                                }
+                            }
+                        })
 
                     tagAnode.append("text")
-                        .attr("x", config.boxWidth/2)
+                        .attr("x",function (d) {
+                            let boxWidth = 0;
+                            let name = '';
+                            let rootRectWidth = 0;
+                            if(d.riskLevelName !== undefined){
+                                name = (d.name.length > 100) ? d.name.substr(0, 100)+"(" + d.riskLevelName + ")" : d.name+"(" + d.riskLevelName + ")";
+                            }else{
+                                name = (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                            }
+                            rootRectWidth = name.length * 15 > 120 ? (name.length* 15)/2 : config.boxWidth/2;
+                            return  rootRectWidth
+                        })
                         .attr('dy', 24)
                         .attr("text-anchor", 'middle')
                         .text(function (d) {
-                            return (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                            let name = '';
+                            if(d.riskLevelName !== undefined){
+                                name = (d.name.length > 100) ? d.name.substr(0, 100)+"(" + d.riskLevelName + ")" : d.name+"(" + d.riskLevelName + ")"
+                            }else{
+                                name = (d.name.length > 100) ? d.name.substr(0, 100) : d.name;
+                            }
+                            return name;
                         })
                         .style({
-                            'fill': '#333',
+                            'fill':function (d) {
+                                let num = d.riskLevel == undefined? 4:d.riskLevel;
+                                let color = '';
+                                if(num == 1){
+                                    color = '#971126';
+                                }else if(num == 2){
+                                    color = '#fff74b';
+                                }else if(num == 3){
+                                    color = 'green';
+                                }else if(num == 4){
+                                    color = '#fff';
+                                }
+                                return color;
+                            },
                             'font-size': 14,
                         })
 
@@ -504,6 +611,32 @@
                     treeG.attr('transform', 'translate(' + d3.event.translate + ')' +
                         ' scale(' + d3.event.scale + ')');
                 }
+
+                //鼠标悬停节点事件
+                treeG.selectAll("g.node").on('mouseover', function (v) {
+                    console.log(v,'ddyykk kkyydd')
+                    //显示提示信息方案一：更新提示条位置和值
+                    d3.select("#tooltip")
+                        .attr("style", "left:" + g.node(v).x + "px" + ";top:" + g.node(v).y + "px")
+                        .select("#tooltip_value")
+                        .text("规则描述：" + g.node(v).description);
+                    //显示提示条
+                    d3.select("#tooltip").classed("hidden", false);
+
+                    //显示提示信息方案二：
+                    // d3.select(this).attr("fill", "#f34848").append("title").text(function (d) {
+                    //     return "规则描述：" + g.node(v).description;
+                    // }).attr("id", "tooltip");
+                });
+                treeG.selectAll("g.node").on('mouseout', function (v) {
+                    //显示提示信息方案一：隐藏提示条
+                    d3.select("#tooltip").classed("hidden", true);
+
+                    //显示提示信息方案二：
+                    // d3.select(this).attr("fill", "rgb(0,0," + (v * 10) + ")");
+                    // d3.select("#tooltip").remove();
+                });
+
             }
         }
 
