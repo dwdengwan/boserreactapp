@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        g.type-current>rect {
+            fill: #1E9FFF;
+        }
+
+        g.type-success>rect {
+            fill: green;
+        }
+
+        g.type-fail>rect {
+            fill: red;
+        }
+
+        text {
+            font-weight: 300;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+            font-size: 14px;
+        }
+
+        .node rect {
+            stroke: #999;
+            fill: #fff;
+            stroke-width: 1.5px;
+        }
+
+        .edgePath path {
+            stroke: #333;
+            stroke-width: 1.5px;
+        }
+
+        #tooltip {
+            position: absolute;
+            width: 150px;
+            height: auto;
+            padding: 5px;
+            background-color: white;
+            border: 1px solid #ccc;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            font-style: 12px;
+            -webkit-box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            -moz-box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        #tooltip.hidden {
+            display: none;
+        }
+
+        #tooltip p {
+            margin: 0;
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<!-- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://cpettitt.github.io/project/dagre-d3/v0.3.0/dagre-d3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script> -->
+
+<!--V4版本支持鼠标放大缩小-->
+<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/dagre-d3/0.6.3/dagre-d3.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<body>
+<div id="tooltip" class="hidden">
+    <p><strong>提示:</strong></p>
+    <p><span id="tooltip_value"></span></p>
+</div>
+
+<svg id="svg-canvas" width=1000></svg>
+</body>
+<script>
+
+    var dataFlow = [
+        {
+            id: 0,
+            label: '开始',
+            status: 'start',
+            target: 1,
+            back_target: null,
+            description: '',
+            x: 206,
+            y: 60
+        },
+        {
+            id: 1,
+            label: '事项受理',
+            status: 'success',
+            target: 2,
+            back_target: null,
+            description: 'title666',
+            x: 206,
+            y: 60
+        }, {
+            id: 2,
+            label: '初审',
+            status: 'success',
+            target: 3,
+            back_target: null,
+            description: 'tit677657',
+            lineTitle:'是',
+            x: 326,
+            y: 60
+        }, {
+            id: 3,
+            label: '初审回复',
+            status: 'success',
+            target: 4,
+            back_target: null,
+            description: 'title22111',
+            lineTitle:'否',
+            x: 266,
+            y: 100
+        }, {
+            id: 4,
+            label: '事情打回',
+            status: 'fail',
+            target: 5,
+            back_target: 2,
+            description: 'title1111',
+            x: 200,
+            y: 100
+        }, {
+            id: 5,
+            label: '事项办结',
+            status: 'current',
+            target: 7,
+            back_target: null,
+            description: 'title222',
+            x: 383,
+            y: 100
+        }, {
+            id: 6,
+            label: '候审补正',
+            status: 'done',
+            target: null,
+            back_target: null,
+            description: 'title33333',
+            x: 100,
+            y: 200
+        }, {
+            id: 7,
+            label: '结束',
+            status: 'end',
+            target: null,
+            back_target: null,
+            description: '',
+            x: 100,
+            y: 200
+        }
+    ]
+
+    var g = new dagreD3.graphlib.Graph()
+        .setGraph({ rankdir: 'LR' })//流程图方向：LR(左右),RL,TB(上下),BT
+        .setDefaultEdgeLabel(function () { return {}; });
+
+    var render = new dagreD3.render();
+
+    var svg = d3.select("svg"),
+        svgGroup = svg.append("g");
+
+    //添加鼠标滚轮放大缩小事件
+    var zoom = d3.zoom().on("zoom", function () {
+        svgGroup.attr("transform", d3.event.transform);
+    });
+    svg.call(zoom);
+
+    dataFlow && dataFlow.map((item, i) => {
+        let shape, fill;
+        if(item.back_target!=null){
+            shape = 'diamond';
+        }else if(item.status=='start'||item.status=='end'){
+            shape = 'ellipse';
+        }else{
+            shape = 'rect';
+        }
+
+        if(item.status=='success'){
+            fill = 'green';
+        }else if(item.status=='fail'){
+            fill = 'red';
+        }else if(item.status=='current'){
+            fill = '#1E9FFF';
+        }else{
+            fill = 'white';
+        }
+
+        g.setNode(item.id, {//画节点
+            label: item.label,
+            // class: "type-" + item.status,
+            shape:shape,//形状：circle,ellipse,cross,diamond,square,star,triangle,wye
+            style: "stroke-width:2px;fill: "+fill+";",//节点样式
+            description: item.description,
+            rx: 5,//矩形节点圆角度
+            ry: 5,
+            // x: item.x,//坐标无效？？？
+            // y: item.y,
+            // width: 20,
+            // height: 100,
+            // id: "status" + i
+        });
+        if (item.target && !item.back_target) {//画线
+            g.setEdge(item.id, item.target, {
+                label:item.lineTitle?item.lineTitle:'',
+                style: "stroke: #0fb2cc; fill: none;",//线样式
+                arrowheadStyle: "fill: #0fb2cc;stroke: #0fb2cc;",//箭头样式
+                arrowhead: 'vee' //箭头形状样式
+            })
+        } else if (item.back_target) {
+            g.setEdge(item.id, item.target, {})
+            g.setEdge(item.id, item.back_target, {})
+        }
+    })
+
+    // g.nodes().forEach(function (v) {
+    // var node = g.node(v);
+    // node.rx = node.ry = 5;//控制节点圆角度
+    // node.style = "fill: #14ff00;width:100px";//节点颜色
+    // });
+
+    render(svgGroup, g);//绘制图表
+
+    d3.select("body").style("background-color", "#ef9934");//整个页面背景色
+
+    //鼠标悬停节点事件
+    svgGroup.selectAll("g.node").on('mouseover', function (v) {
+        console.log(v,g.node(v),'240')
+        //显示提示信息方案一：更新提示条位置和值
+        d3.select("#tooltip")
+            .attr("style", "left:" + g.node(v).x + "px" + ";top:" + g.node(v).y + "px")
+            .select("#tooltip_value")
+            .text("规则描述：" + g.node(v).description);
+        //显示提示条
+        d3.select("#tooltip").classed("hidden", false);
+
+        //显示提示信息方案二：
+        // d3.select(this).attr("fill", "#f34848").append("title").text(function (d) {
+        //     return "规则描述：" + g.node(v).description;
+        // }).attr("id", "tooltip");
+    });
+    svgGroup.selectAll("g.node").on('mouseout', function (v) {
+        console.log(v,'255')
+        //显示提示信息方案一：隐藏提示条
+        d3.select("#tooltip").classed("hidden", true);
+
+        //显示提示信息方案二：
+        // d3.select(this).attr("fill", "rgb(0,0," + (v * 10) + ")");
+        // d3.select("#tooltip").remove();
+    });
+
+
+    //节点文字超出宽度时，隐藏并显示省略号，无效？？？
+    // svgGroup.selectAll("g.node").attr("style", "width:10px;height:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;");
+
+    //添加title属性后，鼠标hover时无效？？？
+    // svgGroup.selectAll("g.node").attr("title", function (v) { return g.node(v).description })
+    // //     .each(function (v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
+
+    var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
+    svgGroup.attr("transform", "translate(" + xCenterOffset + ", 100)");//整个流程图的位置在界面中，左右上下居中显示
+
+    // var initialScale = 0.75;
+    // svg.call(zoom.transform, d3.zoomIdentity.translate((svg.attr("width") - g.graph().width * initialScale) / 2, 20).scale(initialScale));
+    svg.attr("height", 400);
+
+</script>
+
+</html>

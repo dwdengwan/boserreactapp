@@ -20,6 +20,12 @@
             fill: rgba(130, 122, 146, 0.5)!important;
         }
 
+        .node rect {
+            stroke: #999;
+            fill: #fff;
+            stroke-width: 1.5px;
+        }
+
         #tooltip {
             position: absolute;
             width: 150px;
@@ -53,12 +59,11 @@
 </head>
 
 <body>
+<div id="tooltip" class="hidden">
+    <p><strong>提示:</strong></p>
+    <p><span id="tooltip_value"></span></p>
+</div>
 <div class="container">
-    <div id="tooltip" class="hidden">
-        <p><strong>提示:11111111111111111</strong></p>
-        <p><span id="tooltip_value"></span></p>
-    </div>
-
     <div id="svgWrap"></div>
 </div>
 </body>
@@ -81,10 +86,11 @@
         let rootData = {
             "downward": {
                 "direction": "downward",
-                "name": "万科企业股份有限公司",
+                // "posotion": 'right',
+                "name": "万科企业股份有限公司科技大厦博时基金金证财富",
                 "children": [
                     {
-                        "name": "分支机构",
+                        "name": "分支机构1111",
                         "amount": "100",
                         "hasHumanholding": true,
                         "hasChildren": true,
@@ -113,7 +119,7 @@
                         ]
                     },
                     {
-                        "name": "对外投资",
+                        "name": "对外投资22222222",
                         "amount": "100",
                         "hasHumanholding": true,
                         "hasChildren": true,
@@ -142,7 +148,7 @@
                         ]
                     },
                     {
-                        "name": "疑似控股",
+                        "name": "疑似控股44444444",
                         "amount": "100",
                         "hasHumanholding": true,
                         "hasChildren": true,
@@ -175,17 +181,17 @@
             "upward": {
                 "direction": "upward",
                 // "name": "origin",
-                "name": "万科企业股份有限公司",
+                "name": "万科企业股份有限公司科技大厦博时基金金证财富",
                 "posotion": 'middle',
                 "children": [
                     {
-                        "name": "投资方",
+                        "name": "投资方2222222223",
                         "hasHumanholding": false,
                         "amount": "100",
                         "posotion": 'down',
                         "children": [
                             {
-                                "name": "投资方名字",
+                                "name": "投资方名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -204,7 +210,7 @@
                                 "children": []
                             },
                             {
-                                "name": "投资方名字",
+                                "name": "投资方名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -215,13 +221,13 @@
                         ]
                     },
                     {
-                        "name": "法定代表人",
+                        "name": "法定代表人44444443333333333",
                         "hasHumanholding": false,
                         "amount": "100",
                         "posotion": 'down',
                         "children": [
                             {
-                                "name": "法定代表人名字",
+                                "name": "法定代表人名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -240,7 +246,7 @@
                                 "children": []
                             },
                             {
-                                "name": "法定代表人名字",
+                                "name": "法定代表人名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -251,13 +257,13 @@
                         ]
                     },
                     {
-                        "name": "高管",
+                        "name": "高管22222222223333333333",
                         "hasHumanholding": false,
                         "amount": "100",
                         "posotion": 'down',
                         "children": [
                             {
-                                "name": "高管名字",                            
+                                "name": "高管名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -276,7 +282,7 @@
                                 "children": []
                             },
                             {
-                                "name": "高管名字",
+                                "name": "高管名字科技大厦博时基金金证财富",
                                 "deparment":"总监",
                                 "hasHumanholding": false,
                                 "amount": "100",
@@ -390,25 +396,25 @@
                     //节点 
                     let tagAnode = nodeEnter.append("a")
                         .attr("class","tag")
-                        .attr("xlink:title", d => {
-                            console.log(d)
-                            if(d.posotion !== "down"){
-                                let child1 = d.children;
-                                if(child1.length){
-                                    let child2 = child1[0].children;
-                                    if (child2.length){
-                                        //根级
-                                        return `<div style="color:#ffc681;">${d.name}</div>`
-                                    } else{
-                                        //第二级
-                                        return
-                                    }
-                                }else {
-                                    //第三级
-                                    return `<div style="color:#ffc681;">${d.name}</div>`
-                                }
-                            }
-                        })
+                        // .attr("xlink:title", d => {
+                        //     // console.log(d)
+                        //     if(d.posotion !== "down"){
+                        //         let child1 = d.children;
+                        //         if(child1.length){
+                        //             let child2 = child1[0].children;
+                        //             if (child2.length){
+                        //                 //根级
+                        //                 return `<div style="color:#ffc681;">${d.name}</div>`
+                        //             } else{
+                        //                 //第二级
+                        //                 return
+                        //             }
+                        //         }else {
+                        //             //第三级
+                        //             return `<div style="color:#ffc681;">${d.name}</div>`
+                        //         }
+                        //     }
+                        // })
                         .style("cursor", function (d) {
                             return "pointer"
                             // return "not-allowed"
@@ -428,7 +434,7 @@
                             if(d.riskLevelName !== undefined){
                                 name = (d.name.length > 100) ? d.name.substr(0, 100)+"(" + d.riskLevelName + ")" : d.name+"(" + d.riskLevelName + ")";
                             }else{
-                                name = (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                                name = (d.name.length > 100) ? d.name.substr(0, 100) : d.name;
                             }
                             rootRectWidth = name.length * 15 > 120 ? name.length* 15 : 120;
                             return rootRectWidth
@@ -453,6 +459,7 @@
                                 }
                             }
                         })
+                        // .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
 
                     tagAnode.append("text")
                         .attr("x",function (d) {
@@ -462,7 +469,7 @@
                             if(d.riskLevelName !== undefined){
                                 name = (d.name.length > 100) ? d.name.substr(0, 100)+"(" + d.riskLevelName + ")" : d.name+"(" + d.riskLevelName + ")";
                             }else{
-                                name = (d.name.length > 10) ? d.name.substr(0, 10) : d.name;
+                                name = (d.name.length > 100) ? d.name.substr(0, 100) : d.name;
                             }
                             rootRectWidth = name.length * 15 > 120 ? (name.length* 15)/2 : config.boxWidth/2;
                             return  rootRectWidth

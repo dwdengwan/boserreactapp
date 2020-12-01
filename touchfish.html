@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // ==UserScript==
+    // @name         上班防摸鱼插件
+    // @namespace    http://tampermonkey.net/
+    // @version      0.1
+    // @description  上班防摸鱼，自动关闭知乎页面，发送钉钉机器人报警。
+    // @author       大话家
+    // @include      *://*.zhihu.com/*
+    // @require      https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js
+    // @require      https://res.layui.com/layui/release/layer/dist/layer.js?v=3111
+    // @require      http://pv.sohu.com/cityjson?ie=utf-8
+    // ==/UserScript==
+
+    (function() {
+        'use strict';
+        // 背景透明值
+        var opacityNum = 1.0;
+        // 页面打开的时间
+        var startTime = dateFormat("YYYY年MM月dd日 HH时mm分ss秒", new Date());
+        // 主机IP
+        // var ip = returnCitySN.cip;
+        var ip = '172.21.0.213';
+        // 员工唯一标识
+        var userId = 360945;
+        var flag = localStorage.getItem("flag");
+        if(flag == "" || flag == undefined){
+            flag = 0;
+            localStorage.setItem("flag",1);
+        }
+        if(flag == 2){
+            var banTime = localStorage.getItem("banTime");
+            // 2小时后可解封
+            if(Date.now() - banTime > 2*60*60*1000){
+                localStorage.setItem("flag",0);
+
+            }else{
+                // 关闭页面
+                window.opener = null;
+                window.open('','_self');
+                window.close();
+            }
+        }
+
+        // 设置摸鱼壁纸
+        document.body.style.background = "url('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1272729702,676992708&fm=26&gp=0.jpg')";
+        // 设置摸鱼标题
+        setTimeout(function(){
+            document.title = '摸鱼中。。。';
+        }, 3*1000);
+
+        // 摸鱼过程中，每一分钟背景逐渐透明
+        setInterval(function(){
+            $("body").css({ opacity: opacityNum });
+            opacityNum = opacityNum -0.04;
+        }, 60*1000);
+
+        // 10分钟内，页面警告；20分钟内强制退出！
+        setInterval(function(){
+            if(flag == 0){
+                layer.msg("你已摸鱼10分钟，请注意用时！\n上班要专心！", { icon: 7, time: 10000 });
+                localStorage.setItem("flag", 1);
+                var dingMsg1 = "提示："+userId+"（"+ip+"）用户从"+startTime+"开始摸鱼10分钟，上班要认真！";
+                $.ajax({
+                    url:'https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxx',
+                    type:"POST",
+                    async: false,
+                    beforeSend:function (xhr){
+                        xhr.setRequestHeader('Content-Type', 'application/json,application/x-www-form-urlencoded');
+                    },
+                    data:JSON.stringify({"msgtype": "text","text": {"content": dingMsg1}}),
+                    success:function (res){
+                        console.log(res);
+                    },
+                    error:function (err){
+                        console.log(err);
+                    }
+                });
+
+                // 强制退出
+            }else{
+                layer.msg("你已摸鱼20分钟，您将禁止访问知乎页面2小时！", { icon: 7, time: 10000 });
+                localStorage.setItem("flag", 2);
+                var dingMsg2 = "提示："+userId+"（"+ip+"）用户从"+startTime+"开始摸鱼20分钟！插件将屏蔽该用户访问知乎页面2小时。";
+                $.ajax({
+                    url:'https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxx',
+                    type:"POST",
+                    async: false,
+                    beforeSend:function (xhr){
+                        xhr.setRequestHeader('Content-Type', 'application/json,application/x-www-form-urlencoded');
+                    },
+                    data:JSON.stringify({"msgtype": "text","text": {"content": dingMsg2}}),
+                    success:function (res){
+                        console.log(res);
+                    },
+                    error:function (err){
+                        console.log(err);
+                    }
+                });
+                localStorage.setItem("banTime", Date.now());
+                setTimeout(function(){
+                    window.opener = null;
+                    window.open('','_self');
+                    window.close();
+                }, 12*1000);
+            }
+        }, 10*60*1000);
+
+        // 获取格式化时间
+        function dateFormat(fmt, date) {
+            let ret;
+            const opt = {
+                "Y+": date.getFullYear().toString(),        // 年
+                "M+": (date.getMonth() + 1).toString(),     // 月
+                "d+": date.getDate().toString(),            // 日
+                "H+": date.getHours().toString(),           // 时
+                "m+": date.getMinutes().toString(),         // 分
+                "s+": date.getSeconds().toString()          // 秒
+                // 有其他格式化字符需求可以继续添加，必须转化成字符串
+            };
+            for (let k in opt) {
+                ret = new RegExp("(" + k + ")").exec(fmt);
+                if (ret) {
+                    fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                };
+            };
+            return fmt;
+        }
+
+    })();
+</script>
+</body>
+</html>
